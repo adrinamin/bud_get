@@ -1,0 +1,38 @@
+[
+    {
+        "name": "account 1",
+        "account": "2000",
+        "budgets": [
+            {
+                "name": "saving",
+                "amount": "300"
+            },
+            {
+                "name": "saving 2",
+                "amount": "400"
+            },
+            {
+                "name": "saving 3",
+                "amount": "500"
+            }
+        ]
+    },
+    {
+        "name": "account 2",
+        "account": "4000",
+        "budgets": [
+            {
+                "name": "saving",
+                "amount": "400"
+            },
+            {
+                "name": "saving 2",
+                "amount": "400"
+            },
+            {
+                "name": "saving 3",
+                "amount": "600"
+            }
+        ]
+    }
+]

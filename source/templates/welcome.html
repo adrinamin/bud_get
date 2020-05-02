@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Welcome!</title>
+</head>
+<body>
+    <h1>Welcome to my page!</h1>
+    <p>
+        this is a demo
+    </p>
+    <ul>
+    
+    {% for acc in accounts %}
+        <li>
+            <a href="{{ url_for('account', index=loop.index0)}}"> {{acc.name}}
+            </a>
+        </li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
