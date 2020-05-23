@@ -1,38 +1,61 @@
 [
     {
-        "name": "account 1",
         "account": "2000",
+        "amount": "1000",
         "budgets": [
             {
-                "name": "saving",
-                "amount": "300"
+                "amount": "300",
+                "name": "saving"
             },
             {
-                "name": "saving 2",
-                "amount": "400"
+                "amount": "400",
+                "name": "saving 2"
             },
             {
-                "name": "saving 3",
-                "amount": "500"
+                "amount": "500",
+                "name": "saving 3"
             }
-        ]
+        ],
+        "name": "account1"
     },
     {
-        "name": "account 2",
         "account": "4000",
         "budgets": [
             {
-                "name": "saving",
-                "amount": "400"
+                "amount": "400",
+                "name": "saving"
             },
             {
-                "name": "saving 2",
-                "amount": "400"
+                "amount": "400",
+                "name": "saving 2"
             },
             {
-                "name": "saving 3",
-                "amount": "600"
+                "amount": "600",
+                "name": "saving 3"
+            },
+            {
+                "amount": "200",
+                "name": "my budget"
+            },
+            {
+                "amount": "100",
+                "name": "my budget"
+            },
+            {
+                "amount": "200",
+                "name": "another budget"
             }
-        ]
+        ],
+        "name": "account 2"
+    },
+    {
+        "account": "3000",
+        "budgets": [
+            {
+                "amount": "400",
+                "name": "new_budget"
+            }
+        ],
+        "name": "account3"
     }
 ]
