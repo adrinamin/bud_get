@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Add Account</title>
-</head>
-<body>
+{% extends "index.html" %}
+
+{% block title %}Add Account{% endblock %}
+
+{% block content %}
     <h1>Add a new Account</h1>
     <form method="post">
         <p>Account Name:
@@ -15,5 +13,4 @@
         </p>
         <button type="submit">Add</button>
     </form>
-</body>
-</html>
+{% endblock %}

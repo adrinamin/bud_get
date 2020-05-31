@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Accounts</title>
-</head>
-<body>
+{% extends "index.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
     <h1>{{account.name}}</h1>
     <p>Account Name: {{account.name}}</p>
     <p>Account Amount: {{account.account}}</p>
@@ -33,5 +31,4 @@
     </p>
     <a href="{{ url_for('add_budget', index=index)}}">Add budget</a>
     <a href="{{ url_for('remove_account', index=index)}}">Remove Account</a>
-</body>
-</html>
+{% endblock %}

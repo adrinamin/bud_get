@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Remove Acount</title>
-</head>
-<body>
+{% extends "index.html" %}
+
+{% block title %}Remove Account{% endblock %}
+
+{% block content %}
     <h1>Remove Account</h1>
     Name: {{account.name}} <br>
     Amount: {{account.account}}
@@ -14,5 +12,4 @@
         <button type="submit">Yes</button>
         <a href="{{ url_for('welcome')}}">No</a>
     </form>
-</body>
-</html>
+{% endblock %}

@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Welcome!</title>
-</head>
-<body>
+{% extends "index.html" %}
+
+{% block title %}Welcome{% endblock %}
+
+{% block content %}
     <h1>Welcome to bud_get!</h1>
     <p>
         this is a demo
@@ -18,5 +16,4 @@
     {% endfor %}
     </ul>
     <a href="{{ url_for('add_account')}}">Add Account</a>
-</body>
-</html>
+{% endblock %}

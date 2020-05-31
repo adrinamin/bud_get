@@ -1,8 +1,10 @@
 from flask import (Flask, render_template, abort, jsonify, request, redirect, url_for)
 from model import db, save_db
+from scss_compiler_wrapper import initialize_scss
 
 app = Flask(__name__)
 
+initialize_scss(app)
 
 @app.route("/")
 def welcome():
