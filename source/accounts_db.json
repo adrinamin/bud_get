@@ -1,19 +1,12 @@
 [
     {
+        "ID": "80ce7a97-0061-4cbb-b4cf-9955008g3329",
         "account": "2000",
-        "amount": "1000",
         "budgets": [
             {
+                "ID": "80ce7a97-0061-4cbb-b4cf-9955008f2329",
                 "amount": "300",
                 "name": "saving"
-            },
-            {
-                "amount": "400",
-                "name": "saving 2"
-            },
-            {
-                "amount": "500",
-                "name": "saving 3"
             }
         ],
         "name": "account1"
@@ -22,28 +15,24 @@
         "account": "4000",
         "budgets": [
             {
+                "ID": "80ce7a97-0061-4cbb-b4cf-9955008f2329",
                 "amount": "400",
                 "name": "saving"
             },
             {
+                "ID": "80ce7a97-0061-4cbb-b4cf-9955008f1329",
                 "amount": "400",
                 "name": "saving 2"
             },
             {
+                "ID": "80ce7a97-0061-4cbb-b4cf-9955008f4329",
                 "amount": "600",
                 "name": "saving 3"
             },
             {
+                "ID": "80ce7a97-0061-4cbb-b4cf-9955008f5329",
                 "amount": "200",
                 "name": "my budget"
-            },
-            {
-                "amount": "100",
-                "name": "my budget"
-            },
-            {
-                "amount": "200",
-                "name": "another budget"
             }
         ],
         "name": "account 2"

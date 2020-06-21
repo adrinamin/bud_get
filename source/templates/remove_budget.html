@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+
+{% block title %}Remove Budget{% endblock %}
+
+{% block content %}
+    <h1>Remove Account</h1>
+    Name: {{budget.name}} <br>
+    Amount: {{budget.account}}
+
+    <h2>Are you sure?</h2>
+    <form method="post">
+        <button type="submit">Yes</button>
+        <a href="{{ url_for('account', index)}}">No</a>
+    </form>
+{% endblock %}

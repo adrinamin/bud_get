@@ -12,6 +12,7 @@
             <li>            
                 <p>Budget name: {{budget.name}}</p>
                 <p>Budget amount: {{budget.amount}}</p>
+                <a href="{{ url_for('remove_budget', aindex=index, id=budget.ID)}}">X</a>
             </li>
         {% endfor %}
     {% else %}

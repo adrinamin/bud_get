@@ -1,11 +1,11 @@
 {% extends "index.html" %}
 
-{% block title %}Welcome{% endblock %}
+{% block title %}Accounts{% endblock %}
 
 {% block content %}
-    <h1>Welcome to bud_get!</h1>
+    <h1>Accounts</h1>
     <p>
-        this is a demo
+        These are all your accounts
     </p>
     <ul>
     {% for acc in accounts %}
@@ -15,5 +15,5 @@
         </li>
     {% endfor %}
     </ul>
-    <a href="{{ url_for('add_account')}}">Add Account</a>
+    <a href="{{ url_for('account.add')}}">Add Account</a>
 {% endblock %}
