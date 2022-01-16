@@ -1,0 +1,34 @@
+{% extends "index.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+    <h1>{{account.name}}</h1>
+    <p>Account Name: {{account.name}}</p>
+    <p>Account Amount: {{account.account}}</p>
+    <p>budgets of this account</p>
+    {% if budget_count > 0 %}
+        {% for budget in budgets %}
+            <li>            
+                <p>Budget name: {{budget.name}}</p>
+                <p>Budget amount: {{budget.amount}}</p>
+            </li>
+        {% endfor %}
+    {% else %}
+        <p>No budgets here.</p>
+    {% endif %}
+    <p>
+        <a href="{{ url_for('welcome')}}">Home</a>
+        <button>
+        {% if index < max_index %}
+            <a href="{{ url_for('account', index=index + 1)}}"> Next account
+            </a>
+        {% else %}
+            <a href="{{ url_for('account', index=0)}}"> Start over
+            </a>
+        {% endif %}
+        </button>
+    </p>
+    <a href="{{ url_for('add_budget', index=index)}}">Add budget</a>
+    <a href="{{ url_for('remove_account', index=index)}}">Remove Account</a>
+{% endblock %}

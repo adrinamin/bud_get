@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+
+{% block title %}Add Account{% endblock %}
+
+{% block content %}
+    <h1>Add a new Account</h1>
+    <form method="post">
+        <p>Account Name:
+            <input type="text" name="name">
+        </p>
+        <p>Account Amount:
+            <input type="text" name="account">
+        </p>
+        <button type="submit">Add</button>
+    </form>
+{% endblock %}

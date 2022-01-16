@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title%}{% endblock %}</title>
+    {% assets "scss_all" %}
+    <link rel="stylesheet" href="{{url_for('static', filename='gen/all.css')}}">
+    {% endassets %}
+</head>
+<body>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
