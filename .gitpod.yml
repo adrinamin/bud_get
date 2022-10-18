@@ -1,0 +1,3 @@
+tasks:
+  - init: npm install # when someone pushes new code to the repo
+    command: npm run dev # when someone opens a new workspace
