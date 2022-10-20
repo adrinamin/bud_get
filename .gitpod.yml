@@ -1,6 +1,8 @@
 tasks:
   - init: npm install # when someone pushes new code to the repo
-    command: npm run dev # when someone opens a new workspace
+    command: 
+      echo "starting dev server..."
+      npm run dev # when someone opens a new workspace
 
 ports:
   - port: 5173
