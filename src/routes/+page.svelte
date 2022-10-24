@@ -17,6 +17,8 @@
     </form>
     
     <BudgetItem />
+    <BudgetItem />
+    <BudgetItem />
 </div>
 
 <style>
@@ -35,11 +37,11 @@
         width: 100%;
         padding: 0.5em 1em 0.3em 1em;
         text-align: center;
+        background-color: transparent;
     }
 
     .budgets :global(input) {
         border: 1px solid transparent;
-        background-color: transparent;
     }
 
     .budgets :global(input:focus-visible) {
