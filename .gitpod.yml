@@ -4,8 +4,7 @@ tasks:
   - init: |
       echo "bud_get"
       echo "test"
-    command: 
-      echo "command"
+    command: make
 
 # ports:
 #   - port: 5173
