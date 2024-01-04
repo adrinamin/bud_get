@@ -1,8 +1,11 @@
+---
 # For more details see https://www.gitpod.io/docs/references/gitpod-yml#tasks
-# tasks:
-#   - init: npm install # when someone pushes new code to the repo
-#     command: 
-#       npm run dev # when someone opens a new workspace
+tasks:
+  - init: |
+      echo "bud_get"
+      echo "test"
+    command: 
+      echo "command"
 
 # ports:
 #   - port: 5173
@@ -10,3 +13,4 @@
 vscode:
   extensions:
     - eamodio.gitlens
+    - llvm-vs-code-extensions.vscode-clangd
