@@ -1,19 +1,12 @@
 # For more details see https://www.gitpod.io/docs/references/gitpod-yml#tasks
-tasks:
-  - init: npm install # when someone pushes new code to the repo
-    command: 
-      npm run dev # when someone opens a new workspace
+# tasks:
+#   - init: npm install # when someone pushes new code to the repo
+#     command: 
+#       npm run dev # when someone opens a new workspace
 
-ports:
-  - port: 5173
-    onOpen: open-browser
+# ports:
+#   - port: 5173
+#     onOpen: open-browser
 vscode:
   extensions:
-    - svelte.svelte-vscode
     - eamodio.gitlens
-
-github:
-  prebuilds:
-    master: true
-    branches: true
-    pullRequests: true
