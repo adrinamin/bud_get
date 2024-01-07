@@ -1,5 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#define MAX_ACCOUNT_NAME_SIZE 100
+#define MAX_BANK_NAME_SIZE 50
+#define MAX_HOLDER_NAME_SIZE 50
 
 int main_menu();
 void help_page();
@@ -7,6 +12,7 @@ void create_account();
 void get_accounts();
 void get_budgets();
 static void create_file(char *filename);
+static void remove_newline(char *input);
 
 int main(int argc, char *argv[]) {
 
@@ -16,6 +22,10 @@ int main(int argc, char *argv[]) {
     switch (option) {
     case 1:
       create_account();
+      break;
+    case 5:
+      printf("Exiting...\n");
+      exit(0);
       break;
     default:
       printf("bud_get: invalid option -- '%i'\n", option);
@@ -70,12 +80,43 @@ int main_menu() {
   printf("Option: ");
   int option;
   scanf("%i", &option);
-  printf("You chose %i\n", option);
+  getchar(); // Remove \n from stdin
   return option;
 }
 
 void create_account() {
   printf("Creating a new account...\n");
+
+  printf("Account name: ");
+  char *account_name = malloc(MAX_ACCOUNT_NAME_SIZE);
+  if (account_name == NULL) {
+    printf("Error allocating memory.\n");
+    exit(0);
+  }
+  fgets(account_name, MAX_ACCOUNT_NAME_SIZE, stdin);
+  remove_newline(account_name);
+
+  printf("Bank name: ");
+  char *bank_name = malloc(MAX_BANK_NAME_SIZE);
+  if (bank_name == NULL) {
+    printf("Error allocating memory.\n");
+    exit(0);
+  }
+  fgets(bank_name, MAX_BANK_NAME_SIZE, stdin);
+  remove_newline(bank_name);
+
+  printf("Holder name: ");
+  char *holder_name = malloc(MAX_HOLDER_NAME_SIZE);
+  if (holder_name == NULL) {
+    printf("Error allocating memory.\n");
+    exit(0);
+  }
+  fgets(holder_name, MAX_HOLDER_NAME_SIZE, stdin);
+  remove_newline(holder_name);
+
+  printf("Amount: ");
+  float amount;
+  scanf("%f", &amount);
 
   // Open file if exists, create it if it doesn't
   create_file("accounts.csv");
@@ -93,9 +134,14 @@ void create_account() {
   }
 
   // Write account
-  fprintf(file, "Account 2, My bank, My name, 1000\n");
+  fprintf(file, "%s, %s, %s, %f\n", account_name, bank_name, holder_name,
+          amount);
 
+  /* Return memory */
   fclose(file);
+  free(account_name);
+  free(bank_name);
+  free(holder_name);
 }
 
 static void create_file(char *filename) {
@@ -107,4 +153,9 @@ static void create_file(char *filename) {
   }
 
   fclose(file);
+}
+
+static void remove_newline(char *input) {
+  if ((strlen(input) > 0) && (input[strlen(input) - 1] == '\n'))
+    input[strlen(input) - 1] = '\0';
 }
