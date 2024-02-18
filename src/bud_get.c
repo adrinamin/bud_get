@@ -3,9 +3,12 @@
 #include <string.h>
 
 #include "services/accounts.h"
+#include "data/account.h"
 
 int main_menu();
 void help_page();
+
+static void list_accounts();
 
 int main(int argc, char *argv[])
 {
@@ -20,8 +23,7 @@ int main(int argc, char *argv[])
       create_account();
       break;
     case 3:
-      printf("Listing accounts...\n");
-      get_accounts();
+      list_accounts();
       break;
     case 5:
       printf("Exiting...\n");
@@ -37,8 +39,7 @@ int main(int argc, char *argv[])
   switch (argv[1][1])
   {
   case 'a':
-    printf("Listing accounts...\n");
-    get_accounts();
+    list_accounts();
     break;
 
   case 'b':
@@ -86,4 +87,19 @@ int main_menu()
   scanf("%i", &option);
   getchar(); // Remove \n from stdin
   return option;
+}
+
+static void list_accounts()
+{
+  printf("Listing accounts...\n");
+  int size = 0;
+  Account *accounts = get_accounts(&size);
+  printf("Number of accounts: %i\n", size);
+  // print accounts
+  for (int j = 0; j < size; j++)
+  {
+    printf("%s, %s, %s, %.2f\n", accounts[j].account_name, accounts[j].bank_name,
+           accounts[j].holder_name, accounts[j].amount);
+  }
+  free(accounts);
 }

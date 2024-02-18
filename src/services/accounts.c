@@ -2,19 +2,22 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define MAX_ACCOUNT_NAME_SIZE 100
-#define MAX_BANK_NAME_SIZE 50
-#define MAX_HOLDER_NAME_SIZE 50
+#include "../data/account.h"
+#include "../common/file_helper.h"
 
 static void create_file(char *filename);
 static void remove_newline(char *input);
+static Account get_account_from_line(char *line);
+static Account* get_accounts_from_file(FILE *file);
 
-void create_account() {
+void create_account()
+{
   printf("Creating a new account...\n");
 
   printf("Account name: ");
   char *account_name = malloc(MAX_ACCOUNT_NAME_SIZE);
-  if (account_name == NULL) {
+  if (account_name == NULL)
+  {
     printf("Error allocating memory.\n");
     exit(0);
   }
@@ -23,7 +26,8 @@ void create_account() {
 
   printf("Bank name: ");
   char *bank_name = malloc(MAX_BANK_NAME_SIZE);
-  if (bank_name == NULL) {
+  if (bank_name == NULL)
+  {
     printf("Error allocating memory.\n");
     exit(0);
   }
@@ -32,7 +36,8 @@ void create_account() {
 
   printf("Holder name: ");
   char *holder_name = malloc(MAX_HOLDER_NAME_SIZE);
-  if (holder_name == NULL) {
+  if (holder_name == NULL)
+  {
     printf("Error allocating memory.\n");
     exit(0);
   }
@@ -54,7 +59,8 @@ void create_account() {
 
   // Write header if file is empty
   long size = ftell(file);
-  if (size == 0) {
+  if (size == 0)
+  {
     fprintf(file, "Account, Bank, Holder, Amount\n");
   }
 
@@ -69,28 +75,33 @@ void create_account() {
   free(holder_name);
 }
 
-void get_accounts() {
+Account* get_accounts(int* num_accounts)
+{
   printf("\n");
 
   FILE *file = fopen("accounts.csv", "r");
 
-  if (file == NULL) {
+  if (file == NULL)
+  {
     printf("Error opening the file.\n");
     exit(0);
   }
 
-  char line[256];
-  while (fgets(line, sizeof(line), file)) {
-    printf("%s", line);
-  }
+  Account *accounts = get_accounts_from_file(file);
+
+  *num_accounts = count_lines(file) - 1; // -1 because of the header
 
   fclose(file);
+  
+  return accounts;
 }
 
-static void create_file(char *filename) {
+static void create_file(char *filename)
+{
   FILE *file = fopen(filename, "a+");
 
-  if (file == NULL) {
+  if (file == NULL)
+  {
     printf("Error opening/creating the file.\n");
     exit(0);
   }
@@ -98,7 +109,74 @@ static void create_file(char *filename) {
   fclose(file);
 }
 
-static void remove_newline(char *input) {
+static void remove_newline(char *input)
+{
   if ((strlen(input) > 0) && (input[strlen(input) - 1] == '\n'))
     input[strlen(input) - 1] = '\0';
+}
+
+static Account get_account_from_line(char *line)
+{
+  Account account;
+  int token_index = 0;
+  char *token = strtok(line, ",");
+  while (token != NULL)
+  {
+    switch (token_index)
+    {
+    case 0:
+      // printf("Account name: %s\n", token);
+      strcpy(account.account_name, token);
+      break;
+    case 1:
+      // printf("Bank name: %s\n", token);
+      strcpy(account.bank_name, token);
+      break;
+    case 2:
+      // printf("Holder name: %s\n", token);
+      strcpy(account.holder_name, token);
+      break;
+    case 3:
+      // printf("Amount: %f\n", atof(token));
+      account.amount = atof(token);
+      break;
+    }
+    token_index++;
+    token = strtok(NULL, ",");
+  }
+  return account;
+}
+
+static Account* get_accounts_from_file(FILE *file)
+{
+  int size = 1; // initial size but it will grow
+  Account *accounts = malloc(sizeof(Account));
+  if (accounts == NULL)
+  {
+    printf("Error allocating memory.\n");
+    exit(0);
+  }
+
+  char line[256];
+  fgets(line, sizeof(line), file); // skip the first line because it is the header
+  int i = 0;
+  while (fgets(line, sizeof(line), file))
+  {
+    Account account = get_account_from_line(line);
+
+    if (i >= size)
+    {
+      size++;
+      accounts = realloc(accounts, size * sizeof(Account));
+      if (accounts == NULL)
+      {
+        printf("Error reallocating memory.\n");
+        exit(0);
+      }
+    }
+    accounts[i] = account;
+    i++;
+  }
+
+  return accounts;
 }
