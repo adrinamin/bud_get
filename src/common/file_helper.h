@@ -6,4 +6,6 @@
 
 int count_lines(FILE *file);
 
+void create_file(char *filename);
+
 #endif

@@ -4,9 +4,8 @@
 
 #include "../data/account.h"
 #include "../common/file_helper.h"
+#include "../common/string_helper.h"
 
-static void create_file(char *filename);
-static void remove_newline(char *input);
 static Account get_account_from_line(char *line);
 static Account* get_accounts_from_file(FILE *file);
 
@@ -94,25 +93,6 @@ Account* get_accounts(int* num_accounts)
   fclose(file);
   
   return accounts;
-}
-
-static void create_file(char *filename)
-{
-  FILE *file = fopen(filename, "a+");
-
-  if (file == NULL)
-  {
-    printf("Error opening/creating the file.\n");
-    exit(0);
-  }
-
-  fclose(file);
-}
-
-static void remove_newline(char *input)
-{
-  if ((strlen(input) > 0) && (input[strlen(input) - 1] == '\n'))
-    input[strlen(input) - 1] = '\0';
 }
 
 static Account get_account_from_line(char *line)
