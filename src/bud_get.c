@@ -23,6 +23,9 @@ int main(int argc, char *argv[]) {
     case 1:
       create_account();
       break;
+    case 3:
+      get_accounts();
+      break;
     case 5:
       printf("Exiting...\n");
       exit(0);
@@ -142,6 +145,25 @@ void create_account() {
   free(account_name);
   free(bank_name);
   free(holder_name);
+}
+
+void get_accounts() {
+  printf("\n");
+  printf("Listing accounts...\n");
+
+  FILE *file = fopen("accounts.csv", "r");
+
+  if (file == NULL) {
+    printf("Error opening the file.\n");
+    exit(0);
+  }
+
+  char line[256];
+  while (fgets(line, sizeof(line), file)) {
+    printf("%s", line);
+  }
+
+  fclose(file);
 }
 
 static void create_file(char *filename) {
