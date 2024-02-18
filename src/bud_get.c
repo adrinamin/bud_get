@@ -7,16 +7,20 @@
 int main_menu();
 void help_page();
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
 
-  if (argc == 1) {
+  if (argc == 1)
+  {
     int option = main_menu();
 
-    switch (option) {
+    switch (option)
+    {
     case 1:
       create_account();
       break;
     case 3:
+      printf("Listing accounts...\n");
       get_accounts();
       break;
     case 5:
@@ -30,9 +34,11 @@ int main(int argc, char *argv[]) {
     return 0;
   }
 
-  switch (argv[1][1]) {
+  switch (argv[1][1])
+  {
   case 'a':
     printf("Listing accounts...\n");
+    get_accounts();
     break;
 
   case 'b':
@@ -52,7 +58,8 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-void help_page() {
+void help_page()
+{
   printf("Usage: bud_get [OPTION]...\n");
   printf("List accounts or budgets.\n");
   printf("\n");
@@ -62,7 +69,8 @@ void help_page() {
   printf("\n");
 }
 
-int main_menu() {
+int main_menu()
+{
   printf("Welcome to bud_get!\n");
   printf("What do you want to do?\n");
   printf("\n");

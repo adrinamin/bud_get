@@ -71,7 +71,6 @@ void create_account() {
 
 void get_accounts() {
   printf("\n");
-  printf("Listing accounts...\n");
 
   FILE *file = fopen("accounts.csv", "r");
 
