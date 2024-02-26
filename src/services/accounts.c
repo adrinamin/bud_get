@@ -102,6 +102,7 @@ static Account get_account_from_line(char *line)
   char *token = strtok(line, ",");
   while (token != NULL)
   {
+    // We expect the line to have 4 tokens and the order is always the same.
     switch (token_index)
     {
     case 0:

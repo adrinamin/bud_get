@@ -5,9 +5,8 @@
 #include "services/accounts.h"
 #include "data/account.h"
 
-int main_menu();
-void help_page();
-
+static int main_menu();
+static void help_page();
 static void list_accounts();
 
 int main(int argc, char *argv[])
@@ -59,7 +58,7 @@ int main(int argc, char *argv[])
   return 0;
 }
 
-void help_page()
+static void help_page()
 {
   printf("Usage: bud_get [OPTION]...\n");
   printf("List accounts or budgets.\n");
@@ -70,7 +69,7 @@ void help_page()
   printf("\n");
 }
 
-int main_menu()
+static int main_menu()
 {
   printf("Welcome to bud_get!\n");
   printf("What do you want to do?\n");
