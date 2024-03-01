@@ -1,7 +1,7 @@
 #ifndef BUDGET_H
 #define BUDGET_H
 
-#define ID_SIZE 36
+#define ID_SIZE 50
 #define ACCOUNT_NAME_SIZE 100
 #define BUDGET_NAME_SIZE 100
 

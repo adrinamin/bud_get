@@ -7,7 +7,7 @@
 #include "../common/file_helper.h"
 #include "../common/string_helper.h"
 
-#define AMOUNT_SIZE 100 
+#define AMOUNT_SIZE 100
 
 static Budget get_budget_from_user_input();
 static void save_budget_to_file(Budget budget);
@@ -20,10 +20,7 @@ void create_budget()
 
     // print budget
     printf("\n");
-    printf("Budget id: %s\n", budget.id);
-    printf("Budget name: %s\n", budget.name);
-    printf("Budget amount: %.2f\n", budget.amount);
-    printf("Budget account name: %s\n", budget.account_name);
+    printf("Your new budget:\nbudget name: %s, budget amount: %.2f, budget account name: %s\n", budget.name, budget.amount, budget.account_name);
     printf("\n");
 
     create_file("budgets.csv");
@@ -50,7 +47,6 @@ static Budget get_budget_from_user_input()
         char *amount_str = malloc(AMOUNT_SIZE);
         fgets(amount_str, AMOUNT_SIZE, stdin);
         remove_newline(amount_str);
-        clear_input_buffer();
         budget.amount = atof(amount_str);
         free(amount_str);
     }
@@ -58,12 +54,14 @@ static Budget get_budget_from_user_input()
     {
         budget.amount = 0.0;
     }
+    clear_input_buffer();
 
     printf("Which account do you want to associate with this budget?\n");
     printf("Account name: ");
     fgets(budget.account_name, ACCOUNT_NAME_SIZE, stdin);
     remove_newline(budget.account_name);
 
+    printf("generating a random id for the budget...\n");
     // Generate a random id
     uuid_t budget_id;
     uuid_generate_random(budget_id);
@@ -71,7 +69,6 @@ static Budget get_budget_from_user_input()
     uuid_unparse(budget_id, budget_id_str);
     strcpy(budget.id, budget_id_str);
     free(budget_id_str);
-    printf("DEBUG: id: %s\n", budget.id);
 
     return budget;
 }
