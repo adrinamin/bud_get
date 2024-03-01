@@ -7,10 +7,12 @@
 #include "../common/file_helper.h"
 #include "../common/string_helper.h"
 
-#define AMOUNT_SIZE 100
+#define FILE_PATH "budgets.csv"
 
 static Budget get_budget_from_user_input();
 static void save_budget_to_file(Budget budget);
+static void generate_random_id(Budget *budget);
+static void get_user_input(char *input, int size);
 
 void create_budget()
 {
@@ -23,7 +25,7 @@ void create_budget()
     printf("Your new budget:\nbudget name: %s, budget amount: %.2f, budget account name: %s\n", budget.name, budget.amount, budget.account_name);
     printf("\n");
 
-    create_file("budgets.csv");
+    create_file(FILE_PATH);
 
     save_budget_to_file(budget);
 
@@ -35,8 +37,7 @@ static Budget get_budget_from_user_input()
     Budget budget;
 
     printf("Budget name: ");
-    fgets(budget.name, BUDGET_NAME_SIZE, stdin);
-    remove_newline(budget.name);
+    get_user_input(budget.name, BUDGET_NAME_SIZE);
 
     printf("Do you want to create a budget with a specific amount? (y/n): ");
     char answer;
@@ -44,11 +45,7 @@ static Budget get_budget_from_user_input()
     if (answer == 'y')
     {
         printf("Amount: ");
-        char *amount_str = malloc(AMOUNT_SIZE);
-        fgets(amount_str, AMOUNT_SIZE, stdin);
-        remove_newline(amount_str);
-        budget.amount = atof(amount_str);
-        free(amount_str);
+        scanf("%f", &budget.amount);
     }
     else
     {
@@ -58,24 +55,32 @@ static Budget get_budget_from_user_input()
 
     printf("Which account do you want to associate with this budget?\n");
     printf("Account name: ");
-    fgets(budget.account_name, ACCOUNT_NAME_SIZE, stdin);
-    remove_newline(budget.account_name);
+    get_user_input(budget.account_name, ACCOUNT_NAME_SIZE);
 
-    printf("generating a random id for the budget...\n");
-    // Generate a random id
-    uuid_t budget_id;
-    uuid_generate_random(budget_id);
-    char *budget_id_str = malloc(37);
-    uuid_unparse(budget_id, budget_id_str);
-    strcpy(budget.id, budget_id_str);
-    free(budget_id_str);
+    generate_random_id(&budget);
 
     return budget;
 }
 
+static void get_user_input(char *input, int size)
+{
+    fgets(input, size, stdin);
+    remove_newline(input);
+}
+
+static void generate_random_id(Budget *budget)
+{
+    uuid_t budget_id;
+    uuid_generate_random(budget_id);
+    char *budget_id_str = malloc(37);
+    uuid_unparse(budget_id, budget_id_str);
+    strcpy(budget->id, budget_id_str);
+    free(budget_id_str);
+}
+
 static void save_budget_to_file(Budget budget)
 {
-    FILE *file = fopen("budgets.csv", "a");
+    FILE *file = fopen(FILE_PATH, "a+");
 
     fseek(file, 0, SEEK_END);
 
