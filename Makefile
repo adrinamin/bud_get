@@ -39,7 +39,7 @@ dir:
 # The dependencies for the bud_get executable are the bud_get.c file and all the services
 # in the services directory. The bud_get executable is built by linking the bud_get.c file.
 bud_get: $(SRC_DIR)/bud_get.c $(SERVICES) $(COMMON)
-	$(CC) $(CFLAGS) $(SRC_DIR)/bud_get.c $(SERVICES) $(COMMON) -o $(BIN_DIR)/$(TARGET_EXEC)
+	$(CC) $(CFLAGS) $(SRC_DIR)/bud_get.c $(SERVICES) $(COMMON) -o $(BIN_DIR)/$(TARGET_EXEC) -luuid
 
 # Phony means not a "real" target, it doesn't build anything
 # The phony target "clean" is used to remove all compiled object files.

@@ -3,6 +3,7 @@
 #include <string.h>
 
 #include "services/accounts.h"
+#include "services/budgets.h"
 #include "data/account.h"
 
 static int main_menu();
@@ -20,6 +21,9 @@ int main(int argc, char *argv[])
     {
     case 1:
       create_account();
+      break;
+    case 2:
+      create_budget();
       break;
     case 3:
       list_accounts();

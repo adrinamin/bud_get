@@ -7,7 +7,7 @@
 #include "../common/string_helper.h"
 
 static Account get_account_from_line(char *line);
-static Account* get_accounts_from_file(FILE *file);
+static Account *get_accounts_from_file(FILE *file);
 
 void create_account()
 {
@@ -43,9 +43,19 @@ void create_account()
   fgets(holder_name, MAX_HOLDER_NAME_SIZE, stdin);
   remove_newline(holder_name);
 
-  printf("Amount: ");
+  printf("Amount (hit enter for 0.0): ");
   float amount;
-  scanf("%f", &amount);
+  // scanf("%f", &amount);
+  if (scanf("%f", &amount) != 1)
+  {
+    // Usually when creating a new account, the amount is zero.
+    amount = 0.0;
+  }
+  else if (amount < 0)
+  {
+    printf("Amount must be positive.\n");
+    exit(0);
+  }
 
   // Open file if exists, create it if it doesn't
   create_file("accounts.csv");
@@ -74,7 +84,7 @@ void create_account()
   free(holder_name);
 }
 
-Account* get_accounts(int* num_accounts)
+Account *get_accounts(int *num_accounts)
 {
   printf("\n");
 
@@ -91,7 +101,7 @@ Account* get_accounts(int* num_accounts)
   *num_accounts = count_lines(file) - 1; // -1 because of the header
 
   fclose(file);
-  
+
   return accounts;
 }
 
@@ -128,7 +138,7 @@ static Account get_account_from_line(char *line)
   return account;
 }
 
-static Account* get_accounts_from_file(FILE *file)
+static Account *get_accounts_from_file(FILE *file)
 {
   int size = 1; // initial size but it will grow
   Account *accounts = malloc(sizeof(Account));
