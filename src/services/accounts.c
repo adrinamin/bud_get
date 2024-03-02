@@ -5,9 +5,7 @@
 #include "../data/account.h"
 #include "../common/file_helper.h"
 #include "../common/string_helper.h"
-
-static Account get_account_from_line(char *line);
-static Account *get_accounts_from_file(FILE *file);
+#include "../repositories/account_repository.h"
 
 void create_account()
 {
@@ -84,90 +82,8 @@ void create_account()
   free(holder_name);
 }
 
-Account *get_accounts(int *num_accounts)
+Account *get_all_accounts(int *num_accounts)
 {
-  printf("\n");
-
-  FILE *file = fopen("accounts.csv", "r");
-
-  if (file == NULL)
-  {
-    printf("Error opening the file.\n");
-    exit(0);
-  }
-
-  Account *accounts = get_accounts_from_file(file);
-
-  *num_accounts = count_lines(file) - 1; // -1 because of the header
-
-  fclose(file);
-
-  return accounts;
-}
-
-static Account get_account_from_line(char *line)
-{
-  Account account;
-  int token_index = 0;
-  char *token = strtok(line, ",");
-  while (token != NULL)
-  {
-    // We expect the line to have 4 tokens and the order is always the same.
-    switch (token_index)
-    {
-    case 0:
-      // printf("Account name: %s\n", token);
-      strcpy(account.account_name, token);
-      break;
-    case 1:
-      // printf("Bank name: %s\n", token);
-      strcpy(account.bank_name, token);
-      break;
-    case 2:
-      // printf("Holder name: %s\n", token);
-      strcpy(account.holder_name, token);
-      break;
-    case 3:
-      // printf("Amount: %f\n", atof(token));
-      account.amount = atof(token);
-      break;
-    }
-    token_index++;
-    token = strtok(NULL, ",");
-  }
-  return account;
-}
-
-static Account *get_accounts_from_file(FILE *file)
-{
-  int size = 1; // initial size but it will grow
-  Account *accounts = malloc(sizeof(Account));
-  if (accounts == NULL)
-  {
-    printf("Error allocating memory.\n");
-    exit(0);
-  }
-
-  char line[256];
-  fgets(line, sizeof(line), file); // skip the first line because it is the header
-  int i = 0;
-  while (fgets(line, sizeof(line), file))
-  {
-    Account account = get_account_from_line(line);
-
-    if (i >= size)
-    {
-      size++;
-      accounts = realloc(accounts, size * sizeof(Account));
-      if (accounts == NULL)
-      {
-        printf("Error reallocating memory.\n");
-        exit(0);
-      }
-    }
-    accounts[i] = account;
-    i++;
-  }
-
+  Account *accounts = get_accounts(num_accounts);
   return accounts;
 }

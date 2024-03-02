@@ -26,6 +26,6 @@ void create_account();
  * @return Account* 
  *
 */
-Account* get_accounts(int* num_accounts);
+Account* get_all_accounts(int* num_accounts);
 
 #endif

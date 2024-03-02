@@ -28,6 +28,7 @@ BIN_DIR := bin
 # Get all .c files in the services directory
 SERVICES := $(wildcard $(SRC_DIR)/services/*.c)
 COMMON := $(wildcard $(SRC_DIR)/common/*.c)
+REPOS := $(wildcard $(SRC_DIR)/repositories/*.c)
 
 # run all
 all: dir bud_get
@@ -38,8 +39,8 @@ dir:
 
 # The dependencies for the bud_get executable are the bud_get.c file and all the services
 # in the services directory. The bud_get executable is built by linking the bud_get.c file.
-bud_get: $(SRC_DIR)/bud_get.c $(SERVICES) $(COMMON)
-	$(CC) $(CFLAGS) $(SRC_DIR)/bud_get.c $(SERVICES) $(COMMON) -o $(BIN_DIR)/$(TARGET_EXEC) -luuid
+bud_get: $(SRC_DIR)/bud_get.c $(SERVICES) $(COMMON) $(REPOS)
+	$(CC) $(CFLAGS) $(SRC_DIR)/bud_get.c $(SERVICES) $(COMMON) $(REPOS) -o $(BIN_DIR)/$(TARGET_EXEC) -luuid
 
 # Phony means not a "real" target, it doesn't build anything
 # The phony target "clean" is used to remove all compiled object files.

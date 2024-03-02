@@ -96,7 +96,7 @@ static void list_accounts()
 {
   printf("Listing accounts...\n");
   int size = 0;
-  Account *accounts = get_accounts(&size);
+  Account *accounts = get_all_accounts(&size);
   printf("Number of accounts: %i\n", size);
   // print accounts
   for (int j = 0; j < size; j++)
