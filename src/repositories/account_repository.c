@@ -40,24 +40,16 @@ Account read_account_by(char *account_name)
         exit(0);
     }
 
-    printf("DEBUG: input -> %s\n", account_name);
-
     Account *accounts = get_accounts_from_file(file);
 
-    printf("DEBUG: size of accounts array -> %li\n", sizeof(accounts));
-    printf("DEBUG: count file lines -> %d\n", count_lines(file) - 1);
-
     Account account;
-    for (int i = 0; i < count_lines(file) - 1; i++)
+    for (int i = 0; i < sizeof(accounts); i++)
     {
-        printf("DEBUG: account name: %s\n", accounts[i].account_name);
         if (strcmp(accounts[i].account_name, account_name) == 0)
         {
             account = accounts[i];
         }
     }
-
-    printf("DEBUG: result ->  %s\n", account.account_name);
 
     fclose(file);
     return account;
