@@ -6,25 +6,23 @@
 #include "../common/file_helper.h"
 #include "../data/account.h"
 
-FILE *csv_file = NULL; // Global variable to hold the file property
-
 static Account *get_accounts_from_file(FILE *file);
 static Account get_account_from_line(char *line);
 
-Account *get_accounts(int *num_accounts) {
-    if (csv_file == NULL) {
-        csv_file = fopen("accounts.csv", "r");
-    }
-    if (csv_file == NULL) {
+Account *get_accounts(int *num_accounts)
+{
+    FILE *file = fopen("accounts.csv", "r");
+    if (file == NULL)
+    {
         printf("Error opening the file.\n");
-        return NULL;
+        exit(0);
     }
 
-    Account *accounts = get_accounts_from_file(csv_file);
+    Account *accounts = get_accounts_from_file(file);
 
-    *num_accounts = count_lines(csv_file) - 1; // -1 because of the header
+    *num_accounts = count_lines(file) - 1; // -1 because of the header
 
-    fclose(csv_file);
+    fclose(file);
     return accounts;
 }
 
@@ -33,13 +31,35 @@ Account *get_accounts(int *num_accounts) {
 //     // Use the file_property variable here
 // }
 
-Account read_account()
+Account read_account_by(char *account_name)
 {
-    Account account = {
-        .account_name = "Account 1",
-        .bank_name = "Bank 1",
-        .holder_name = "Holder 1",
-        .amount = 100.0};
+    FILE *file = fopen("accounts.csv", "a+");
+    if (file == NULL)
+    {
+        printf("Error opening the file.\n");
+        exit(0);
+    }
+
+    printf("DEBUG: input -> %s\n", account_name);
+
+    Account *accounts = get_accounts_from_file(file);
+
+    printf("DEBUG: size of accounts array -> %li\n", sizeof(accounts));
+    printf("DEBUG: count file lines -> %d\n", count_lines(file) - 1);
+
+    Account account;
+    for (int i = 0; i < count_lines(file) - 1; i++)
+    {
+        printf("DEBUG: account name: %s\n", accounts[i].account_name);
+        if (strcmp(accounts[i].account_name, account_name) == 0)
+        {
+            account = accounts[i];
+        }
+    }
+
+    printf("DEBUG: result ->  %s\n", account.account_name);
+
+    fclose(file);
     return account;
 }
 
@@ -55,67 +75,67 @@ Account read_account()
 
 static Account *get_accounts_from_file(FILE *file)
 {
-  int size = 1; // initial size but it will grow
-  Account *accounts = malloc(sizeof(Account));
-  if (accounts == NULL)
-  {
-    printf("Error allocating memory.\n");
-    exit(0);
-  }
-
-  char line[256];
-  fgets(line, sizeof(line), file); // skip the first line because it is the header
-  int i = 0;
-  while (fgets(line, sizeof(line), file))
-  {
-    Account account = get_account_from_line(line);
-
-    if (i >= size)
+    int size = 1; // initial size but it will grow
+    Account *accounts = malloc(sizeof(Account));
+    if (accounts == NULL)
     {
-      size++;
-      accounts = realloc(accounts, size * sizeof(Account));
-      if (accounts == NULL)
-      {
-        printf("Error reallocating memory.\n");
+        printf("Error allocating memory.\n");
         exit(0);
-      }
     }
-    accounts[i] = account;
-    i++;
-  }
 
-  return accounts;
+    char line[256];
+    fgets(line, sizeof(line), file); // skip the first line because it is the header
+    int i = 0;
+    while (fgets(line, sizeof(line), file))
+    {
+        Account account = get_account_from_line(line);
+
+        if (i >= size)
+        {
+            size++;
+            accounts = realloc(accounts, size * sizeof(Account));
+            if (accounts == NULL)
+            {
+                printf("Error reallocating memory.\n");
+                exit(0);
+            }
+        }
+        accounts[i] = account;
+        i++;
+    }
+
+    return accounts;
 }
 
 static Account get_account_from_line(char *line)
 {
-  Account account;
-  int token_index = 0;
-  char *token = strtok(line, ",");
-  while (token != NULL)
-  {
-    // We expect the line to have 4 tokens and the order is always the same.
-    switch (token_index)
+    Account account;
+    int token_index = 0;
+    char *token = strtok(line, ",");
+    while (token != NULL)
     {
-    case 0:
-      // printf("Account name: %s\n", token);
-      strcpy(account.account_name, token);
-      break;
-    case 1:
-      // printf("Bank name: %s\n", token);
-      strcpy(account.bank_name, token);
-      break;
-    case 2:
-      // printf("Holder name: %s\n", token);
-      strcpy(account.holder_name, token);
-      break;
-    case 3:
-      // printf("Amount: %f\n", atof(token));
-      account.amount = atof(token);
-      break;
+        // We expect the line to have 4 tokens and the order is always the same.
+        switch (token_index)
+        {
+        case 0:
+            // printf("Account name: %s\n", token);
+            strcpy(account.account_name, token);
+            break;
+        case 1:
+            // printf("Bank name: %s\n", token);
+            strcpy(account.bank_name, token);
+            break;
+        case 2:
+            // printf("Holder name: %s\n", token);
+            strcpy(account.holder_name, token);
+            break;
+        case 3:
+            // printf("Amount: %f\n", atof(token));
+            account.amount = atof(token);
+            break;
+        }
+        token_index++;
+        token = strtok(NULL, ",");
     }
-    token_index++;
-    token = strtok(NULL, ",");
-  }
-  return account;
+    return account;
 }

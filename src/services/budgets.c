@@ -6,6 +6,7 @@
 #include "../data/budget.h"
 #include "../common/file_helper.h"
 #include "../common/string_helper.h"
+#include "../repositories/account_repository.h"
 
 #define FILE_PATH "budgets.csv"
 
@@ -54,8 +55,25 @@ static Budget get_budget_from_user_input()
     clear_input_buffer();
 
     printf("Which account do you want to associate with this budget?\n");
-    printf("Account name: ");
-    get_user_input(budget.account_name, ACCOUNT_NAME_SIZE);
+    clear_input_buffer();
+    
+    Account account;
+    while (strcmp(account.account_name, budget.account_name) != 0)
+    {
+        printf("Account name: ");
+        get_user_input(budget.account_name, ACCOUNT_NAME_SIZE);
+        
+        account = read_account_by(budget.account_name);
+        
+        // printf("DEBUG: account name -> %s\n", account.account_name);
+        
+        if (strcmp(account.account_name, budget.account_name) != 0)
+        {
+            printf("Account not found. Try again\n");
+            memset(account.account_name, 0, sizeof(account.account_name));
+            continue;
+        }
+    }
 
     generate_random_id(&budget);
 
