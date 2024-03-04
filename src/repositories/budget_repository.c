@@ -6,6 +6,7 @@
 #include "../common/file_helper.h"
 
 #define MAX_LINE_SIZE 256
+#define FILE_PATH "budgets.csv"
 
 static Budget *get_budgets_from_file(FILE *file);
 static Budget get_budget_from_line(char *line);
@@ -29,7 +30,7 @@ Budget *get_budgets(int *num_budgets)
 
 Budget get_budget_by_id(int id)
 {
-    FILE *file = fopen("budgets.csv", "r");
+    FILE *file = fopen(FILE_PATH, "r");
     if (file == NULL)
     {
         printf("Error opening the file.\n");
@@ -49,6 +50,28 @@ Budget get_budget_by_id(int id)
 
     fclose(file);
     return budget;
+}
+
+void add_budget(Budget budget)
+{
+    FILE *file = fopen(FILE_PATH, "a+");
+    if (file == NULL)
+    {
+        printf("Error opening the file.\n");
+        exit(0);
+    }
+
+    fseek(file, 0, SEEK_END);
+
+    long size = ftell(file);
+    if (size == 0)
+    {
+        fprintf(file, "id,name,amount,account_name\n");
+    }
+
+    fprintf(file, "%s,%s,%.2f,%s\n", budget.id, budget.name, budget.amount, budget.account_name);
+
+    fclose(file);
 }
 
 static Budget *get_budgets_from_file(FILE *file)

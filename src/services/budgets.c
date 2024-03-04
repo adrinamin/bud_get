@@ -12,7 +12,6 @@
 #define FILE_PATH "budgets.csv"
 
 static Budget get_budget_from_user_input();
-static void save_budget_to_file(Budget budget);
 static void generate_random_id(Budget *budget);
 static void get_user_input(char *input, int size);
 
@@ -29,7 +28,7 @@ void create_budget()
 
     create_file(FILE_PATH);
 
-    save_budget_to_file(budget);
+    add_budget(budget);
 
     printf("Budget created successfully.\n");
 }
@@ -99,21 +98,4 @@ static void generate_random_id(Budget *budget)
     uuid_unparse(budget_id, budget_id_str);
     strcpy(budget->id, budget_id_str);
     free(budget_id_str);
-}
-
-static void save_budget_to_file(Budget budget)
-{
-    FILE *file = fopen(FILE_PATH, "a+");
-
-    fseek(file, 0, SEEK_END);
-
-    long size = ftell(file);
-    if (size == 0)
-    {
-        fprintf(file, "id,name,amount,account_name\n");
-    }
-
-    fprintf(file, "%s,%s,%f,%s\n", budget.id, budget.name, budget.amount, budget.account_name);
-
-    fclose(file);
 }
