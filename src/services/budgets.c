@@ -7,6 +7,7 @@
 #include "../common/file_helper.h"
 #include "../common/string_helper.h"
 #include "../repositories/account_repository.h"
+#include "../repositories/budget_repository.h"
 
 #define FILE_PATH "budgets.csv"
 
@@ -33,12 +34,38 @@ void create_budget()
     printf("Budget created successfully.\n");
 }
 
+Budget *get_all_budgets(int *num_budgets) {
+    Budget *budgets = get_budgets(num_budgets);
+    return budgets;
+}
+
 static Budget get_budget_from_user_input()
 {
     Budget budget;
 
     printf("Budget name: ");
     get_user_input(budget.name, BUDGET_NAME_SIZE);
+    clear_input_buffer();
+
+    printf("Which account do you want to associate with this budget?\n");
+
+    Account account;
+    while (strcmp(account.account_name, budget.account_name) != 0)
+    {
+        printf("Account name: ");
+        get_user_input(budget.account_name, ACCOUNT_NAME_SIZE);
+
+        account = read_account_by(budget.account_name);
+
+        // printf("DEBUG: account name -> %s\n", account.account_name);
+
+        if (strcmp(account.account_name, budget.account_name) != 0)
+        {
+            printf("Account not found. Try again\n");
+            memset(account.account_name, 0, sizeof(account.account_name));
+            continue;
+        }
+    }
 
     printf("Do you want to create a budget with a specific amount? (y/n): ");
     char answer;
@@ -51,28 +78,6 @@ static Budget get_budget_from_user_input()
     else
     {
         budget.amount = 0.0;
-    }
-    clear_input_buffer();
-
-    printf("Which account do you want to associate with this budget?\n");
-    clear_input_buffer();
-    
-    Account account;
-    while (strcmp(account.account_name, budget.account_name) != 0)
-    {
-        printf("Account name: ");
-        get_user_input(budget.account_name, ACCOUNT_NAME_SIZE);
-        
-        account = read_account_by(budget.account_name);
-        
-        // printf("DEBUG: account name -> %s\n", account.account_name);
-        
-        if (strcmp(account.account_name, budget.account_name) != 0)
-        {
-            printf("Account not found. Try again\n");
-            memset(account.account_name, 0, sizeof(account.account_name));
-            continue;
-        }
     }
 
     generate_random_id(&budget);

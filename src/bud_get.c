@@ -9,6 +9,7 @@
 static int main_menu();
 static void help_page();
 static void list_accounts();
+static void list_budgets();
 
 int main(int argc, char *argv[])
 {
@@ -28,6 +29,9 @@ int main(int argc, char *argv[])
     case 3:
       list_accounts();
       break;
+    case 4:
+      list_budgets();
+      break;
     case 5:
       printf("Exiting...\n");
       exit(0);
@@ -46,7 +50,7 @@ int main(int argc, char *argv[])
     break;
 
   case 'b':
-    printf("Listing budgets...\n");
+    list_budgets();
     break;
 
   case 'h':
@@ -106,3 +110,18 @@ static void list_accounts()
   }
   free(accounts);
 }
+
+static void list_budgets(){
+  printf("Listing budgets...\n");
+  int size = 0;
+  Budget *budgets = get_all_budgets(&size);
+  printf("Number of budgets: %i\n", size);
+  // print budgets
+  for (int j = 0; j < size; j++)
+  {
+    printf("%s, %.2f, %s", budgets[j].name,
+           budgets[j].amount, budgets[j].account_name);
+  }
+  free(budgets);
+}
+
