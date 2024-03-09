@@ -5,7 +5,7 @@
 
 
 Account *get_accounts(int *num_accounts);
-// static void create_account(Account account);
+void add_account(Account account);
 Account read_account_by(char *account_name);
 // static void update_account(Account account);
 // static void delete_account(Account account);

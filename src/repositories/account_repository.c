@@ -6,12 +6,14 @@
 #include "../common/file_helper.h"
 #include "../data/account.h"
 
+#define FILE_PATH "accounts.csv"
+
 static Account *get_accounts_from_file(FILE *file);
 static Account get_account_from_line(char *line);
 
 Account *get_accounts(int *num_accounts)
 {
-    FILE *file = fopen("accounts.csv", "r");
+    FILE *file = fopen(FILE_PATH, "r");
     if (file == NULL)
     {
         printf("Error opening the file.\n");
@@ -26,14 +28,36 @@ Account *get_accounts(int *num_accounts)
     return accounts;
 }
 
-// void create_account(Account account)
-// {
-//     // Use the file_property variable here
-// }
+void add_account(Account account)
+{
+    FILE *file = fopen(FILE_PATH, "a+");
+    if (file == NULL)
+    {
+        printf("Error opening the file.\n");
+        exit(0);
+    }
+
+    // Check if file is empty
+    fseek(file, 0, SEEK_END);
+
+    // Write header if file is empty
+    long size = ftell(file);
+    if (size == 0)
+    {
+        fprintf(file, "Account, Bank, Holder, Amount\n");
+    }
+
+    // Write account
+    fprintf(file, "%s, %s, %s, %f\n", account.account_name, account.bank_name, account.account_name,
+            account.amount);
+
+    /* Return memory */
+    fclose(file);
+}
 
 Account read_account_by(char *account_name)
 {
-    FILE *file = fopen("accounts.csv", "a+");
+    FILE *file = fopen(FILE_PATH, "a+");
     if (file == NULL)
     {
         printf("Error opening the file.\n");

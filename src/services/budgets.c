@@ -11,7 +11,7 @@
 
 #define FILE_PATH "budgets.csv"
 
-static Budget get_budget_from_user_input();
+static Budget create_budget_from_user_input();
 static void generate_random_id(Budget *budget);
 static void get_user_input(char *input, int size);
 
@@ -19,7 +19,7 @@ void create_budget()
 {
     printf("Creating a new budget...\n");
 
-    Budget budget = get_budget_from_user_input();
+    Budget budget = create_budget_from_user_input();
 
     // print budget
     printf("\n");
@@ -38,7 +38,7 @@ Budget *get_all_budgets(int *num_budgets) {
     return budgets;
 }
 
-static Budget get_budget_from_user_input()
+static Budget create_budget_from_user_input()
 {
     Budget budget;
 
@@ -55,8 +55,6 @@ static Budget get_budget_from_user_input()
         get_user_input(budget.account_name, ACCOUNT_NAME_SIZE);
 
         account = read_account_by(budget.account_name);
-
-        // printf("DEBUG: account name -> %s\n", account.account_name);
 
         if (strcmp(account.account_name, budget.account_name) != 0)
         {
