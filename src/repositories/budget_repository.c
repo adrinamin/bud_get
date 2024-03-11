@@ -54,6 +54,9 @@ Budget get_budget_by_id(int id)
 
 void add_budget(Budget budget)
 {
+    // Create file if it doesn't exist
+    create_file(FILE_PATH);
+
     FILE *file = fopen(FILE_PATH, "a+");
     if (file == NULL)
     {

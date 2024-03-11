@@ -4,12 +4,9 @@
 #include <string.h>
 
 #include "../data/budget.h"
-#include "../common/file_helper.h"
 #include "../common/string_helper.h"
 #include "../repositories/account_repository.h"
 #include "../repositories/budget_repository.h"
-
-#define FILE_PATH "budgets.csv"
 
 static Budget create_budget_from_user_input();
 static void generate_random_id(Budget *budget);
@@ -25,8 +22,6 @@ void create_budget()
     printf("\n");
     printf("Your new budget:\nbudget name: %s, budget amount: %.2f, budget account name: %s\n", budget.name, budget.amount, budget.account_name);
     printf("\n");
-
-    create_file(FILE_PATH);
 
     add_budget(budget);
 

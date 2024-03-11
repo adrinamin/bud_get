@@ -30,6 +30,9 @@ Account *get_accounts(int *num_accounts)
 
 void add_account(Account account)
 {
+    // create it if it doesn't exist
+    create_file(FILE_PATH);
+    
     FILE *file = fopen(FILE_PATH, "a+");
     if (file == NULL)
     {

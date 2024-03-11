@@ -3,11 +3,8 @@
 #include <string.h>
 
 #include "../data/account.h"
-#include "../common/file_helper.h"
 #include "../common/string_helper.h"
 #include "../repositories/account_repository.h"
-
-#define FILE_PATH "accounts.csv"
 
 static Account create_account_from_user_input();
 static float get_amount();
@@ -22,9 +19,6 @@ void create_account()
   printf("\n");
   printf("Your new account:\naccount name: %s, bank name: %s, holder name: %s, amount: %.2f\n", account.account_name, account.bank_name, account.holder_name, account.amount);
   printf("\n");
-
-  // create it if it doesn't
-  create_file(FILE_PATH);
 
   // Open file
   add_account(account);
