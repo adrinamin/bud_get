@@ -28,6 +28,37 @@ Budget *get_budgets(int *num_budgets)
     return budgets;
 }
 
+Budget *get_budgets_by_account_name(char *account_name)
+{
+    FILE *file = fopen(FILE_PATH, "r");
+    if (file == NULL)
+    {
+        printf("Error opening the file.\n");
+        exit(0);
+    }
+
+    Budget *budgets = get_budgets_from_file(file);
+    Budget *filtered_budgets = malloc(sizeof(Budget) * 100);
+    if (filtered_budgets == NULL)
+    {
+        printf("Error allocating memory.\n");
+        exit(0);
+    }
+
+    int i = 0; // we use a separate index for the filtered array because we don't know how many budgets will be found
+    for (int j = 0; j < sizeof(budgets); j++)
+    {
+        if (strcmp(budgets[j].account_name, account_name) == 0)
+        {
+            filtered_budgets[i] = budgets[j];
+            i++;
+        }
+    }
+
+    fclose(file);
+    return filtered_budgets;
+}
+
 Budget get_budget_by_id(int id)
 {
     FILE *file = fopen(FILE_PATH, "r");

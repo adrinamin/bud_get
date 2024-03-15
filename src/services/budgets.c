@@ -4,6 +4,7 @@
 #include <string.h>
 
 #include "../data/budget.h"
+#include "../data/account.h"
 #include "../common/string_helper.h"
 #include "../repositories/account_repository.h"
 #include "../repositories/budget_repository.h"
@@ -11,6 +12,7 @@
 static Budget create_budget_from_user_input();
 static void generate_random_id(Budget *budget);
 static void get_user_input(char *input, int size);
+static float get_account_rest(Budget new_budget, Account connected_account);
 
 void create_budget()
 {
@@ -39,7 +41,6 @@ static Budget create_budget_from_user_input()
 
     printf("Budget name: ");
     get_user_input(budget.name, BUDGET_NAME_SIZE);
-    clear_input_buffer();
 
     printf("Which account do you want to associate with this budget?\n");
 
@@ -64,8 +65,24 @@ static Budget create_budget_from_user_input()
     scanf("%c", &answer);
     if (answer == 'y')
     {
+        printf("Current amount left in your account: %.2f\n", get_account_rest(budget, account));
         printf("Amount: ");
-        scanf("%f", &budget.amount);
+        do
+        {
+            scanf("%f", &budget.amount);
+            if (budget.amount < 0)
+            {
+                printf("Amount must be a positive value.\n");
+                printf("Amount: ");
+            }
+            else if (budget.amount > get_account_rest(budget, account))
+            {
+                printf("Amount must be less than or equal to what is left in your account.\n");
+                printf("Current amount left in your account: %.2f\n", get_account_rest(budget, account));
+                printf("Amount: ");
+            }
+            clear_input_buffer();
+        } while (scanf("%f", &budget.amount) != 1 || budget.amount < 0 || budget.amount > get_account_rest(budget, account));
     }
     else
     {
@@ -91,4 +108,21 @@ static void generate_random_id(Budget *budget)
     uuid_unparse(budget_id, budget_id_str);
     strcpy(budget->id, budget_id_str);
     free(budget_id_str);
+}
+
+static float get_account_rest(Budget new_budget, Account connected_account)
+{
+    Budget *budgets = get_budgets_by_account_name(connected_account.account_name);
+
+    float total_budgets = 0;
+
+    for (int i = 0; i < sizeof(budgets); i++)
+    {
+        if (strcmp(budgets[i].account_name, connected_account.account_name) == 0)
+        {
+            total_budgets += budgets[i].amount;
+        }
+    }
+
+    return connected_account.amount - total_budgets;
 }
