@@ -30,7 +30,8 @@ void create_budget()
     printf("Budget created successfully.\n");
 }
 
-Budget *get_all_budgets(int *num_budgets) {
+Budget *get_all_budgets(int *num_budgets)
+{
     Budget *budgets = get_budgets(num_budgets);
     return budgets;
 }
@@ -60,12 +61,19 @@ static Budget create_budget_from_user_input()
         }
     }
 
+    float account_rest = get_account_rest(budget, account);
+    if (account_rest == 0)
+    {
+        printf("There is no money left in your account. Exiting...\n");
+        exit(1);
+    }
+
+    printf("Current amount left in your account: %.2f\n", account_rest);
     printf("Do you want to create a budget with a specific amount? (y/n): ");
     char answer;
     scanf("%c", &answer);
     if (answer == 'y')
     {
-        printf("Current amount left in your account: %.2f\n", get_account_rest(budget, account));
         printf("Amount: ");
         do
         {
@@ -75,14 +83,13 @@ static Budget create_budget_from_user_input()
                 printf("Amount must be a positive value.\n");
                 printf("Amount: ");
             }
-            else if (budget.amount > get_account_rest(budget, account))
+            else if (budget.amount > account_rest)
             {
                 printf("Amount must be less than or equal to what is left in your account.\n");
-                printf("Current amount left in your account: %.2f\n", get_account_rest(budget, account));
+                printf("Current amount left in your account: %.2f\n", account_rest);
                 printf("Amount: ");
             }
-            clear_input_buffer();
-        } while (scanf("%f", &budget.amount) != 1 || budget.amount < 0 || budget.amount > get_account_rest(budget, account));
+        } while (scanf("%f", &budget.amount) != 1 || budget.amount < 0 || budget.amount > account_rest);
     }
     else
     {
@@ -112,17 +119,7 @@ static void generate_random_id(Budget *budget)
 
 static float get_account_rest(Budget new_budget, Account connected_account)
 {
-    Budget *budgets = get_budgets_by_account_name(connected_account.account_name);
-
-    float total_budgets = 0;
-
-    for (int i = 0; i < sizeof(budgets); i++)
-    {
-        if (strcmp(budgets[i].account_name, connected_account.account_name) == 0)
-        {
-            total_budgets += budgets[i].amount;
-        }
-    }
+    float total_budgets = get_total_budget_amount(connected_account.account_name);
 
     return connected_account.amount - total_budgets;
 }

@@ -4,8 +4,8 @@
 #include "../data/budget.h"
 
 Budget *get_budgets(int *num_budgets);
-Budget *get_budgets_by_account_name(char *account_name);
 Budget get_budget_by_id(int id);
 void add_budget(Budget budget);
+float get_total_budget_amount(char *account_name);
 
 #endif // BUDGET_REPOSITORY_H

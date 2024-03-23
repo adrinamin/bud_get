@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "../data/budget.h"
 #include "../common/file_helper.h"
@@ -26,37 +27,6 @@ Budget *get_budgets(int *num_budgets)
 
     fclose(file);
     return budgets;
-}
-
-Budget *get_budgets_by_account_name(char *account_name)
-{
-    FILE *file = fopen(FILE_PATH, "r");
-    if (file == NULL)
-    {
-        printf("Error opening the file.\n");
-        exit(0);
-    }
-
-    Budget *budgets = get_budgets_from_file(file);
-    Budget *filtered_budgets = malloc(sizeof(Budget) * 100);
-    if (filtered_budgets == NULL)
-    {
-        printf("Error allocating memory.\n");
-        exit(0);
-    }
-
-    int i = 0; // we use a separate index for the filtered array because we don't know how many budgets will be found
-    for (int j = 0; j < sizeof(budgets); j++)
-    {
-        if (strcmp(budgets[j].account_name, account_name) == 0)
-        {
-            filtered_budgets[i] = budgets[j];
-            i++;
-        }
-    }
-
-    fclose(file);
-    return filtered_budgets;
 }
 
 Budget get_budget_by_id(int id)
@@ -106,6 +76,35 @@ void add_budget(Budget budget)
     fprintf(file, "%s,%s,%.2f,%s\n", budget.id, budget.name, budget.amount, budget.account_name);
 
     fclose(file);
+}
+
+float get_total_budget_amount(char *account_name)
+{
+    FILE *file = fopen(FILE_PATH, "r");
+    if (file == NULL)
+    {
+        printf("Error opening the file.\n");
+        exit(0);
+    }
+
+    Budget *budgets = get_budgets_from_file(file);
+
+    float total_budget_amount = 0;
+    for (int i = 0; i < count_lines(file) - 1; i++)
+    {
+        // Remove leading and trailing whitespace from budgets[i].account_name
+        char *trimmed_account_name = strtok(budgets[i].account_name, " \t\n\r");
+
+        // Convert both strings to lower case
+        for (int j = 0; account_name[j]; j++) account_name[j] = tolower(account_name[j]);
+        for (int j = 0; trimmed_account_name[j]; j++) trimmed_account_name[j] = tolower(trimmed_account_name[j]);
+        if (strcmp(budgets[i].account_name, account_name) == 0)
+        {
+            total_budget_amount += budgets[i].amount;
+        }
+    }
+    fclose(file);
+    return total_budget_amount;
 }
 
 static Budget *get_budgets_from_file(FILE *file)
